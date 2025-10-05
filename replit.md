@@ -2,7 +2,7 @@
 
 ## Overview
 
-CXSpace is a full-stack web application designed to be a premier community platform for customer success professionals, technical support engineers, and B2B SaaS experts. The platform provides a comprehensive community experience with event management, career resources, FAQ management, and community engagement features.
+CXSpace is a static React application designed to be a premier community platform for customer success professionals, technical support engineers, and B2B SaaS experts. The platform provides a comprehensive community experience with event listings, career resources, FAQ management, and community engagement features. Built for GitHub Pages deployment.
 
 ## User Preferences
 
@@ -13,25 +13,17 @@ Design preferences: Cool and quirky design with blue, white, and black color sch
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite for fast development and optimized builds
+- **Build Tool**: Vite for fast development and optimized static builds
 - **Routing**: Wouter for lightweight client-side routing
-- **State Management**: TanStack Query (React Query) for server state management
+- **Data Management**: Static data imports (no backend/database required)
 - **Styling**: Tailwind CSS with shadcn/ui component library
 - **UI Components**: Radix UI primitives with custom styling via shadcn/ui
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript with ES modules
-- **Database**: PostgreSQL with Drizzle ORM
-- **Database Provider**: Neon Database (serverless PostgreSQL)
-- **API Design**: RESTful API with JSON responses
-- **Session Management**: Express sessions with PostgreSQL store
-
-### Database Design
-- **ORM**: Drizzle ORM for type-safe database operations
-- **Schema**: Shared schema definitions between client and server
-- **Tables**: Users, Events, Jobs, FAQs with appropriate relationships
-- **Migrations**: Drizzle Kit for schema migrations
+### Data Architecture
+- **Events**: Static data defined in `client/src/data/events.ts`
+- **Jobs**: Static data defined in `client/src/data/jobs.ts`
+- **FAQs**: Static data defined in `client/src/data/faqs.ts`
+- **No Database**: All content is hardcoded for static deployment
 
 ## Key Components
 
@@ -44,11 +36,10 @@ Design preferences: Cool and quirky design with blue, white, and black color sch
 - **FAQ**: Community frequently asked questions
 - **Join**: Community platform links (Discord, WhatsApp)
 
-### Data Models
-- **Users**: Authentication and profile management
-- **Events**: Community meetups and workshops
-- **Jobs**: Career opportunities and job postings
-- **FAQs**: Community knowledge base
+### Static Data
+- **Events**: 3 community meetups and workshops
+- **Jobs**: 1 featured career opportunity
+- **FAQs**: 5 frequently asked questions
 
 ### UI Components
 - **Layout**: Responsive header with navigation and footer
@@ -58,17 +49,11 @@ Design preferences: Cool and quirky design with blue, white, and black color sch
 
 ## Data Flow
 
-### Client-Server Communication
-1. Frontend makes API requests to `/api/*` endpoints
-2. Express server handles routing and business logic
-3. Drizzle ORM manages database operations
-4. JSON responses sent back to client
-5. TanStack Query manages caching and state synchronization
-
-### Storage Strategy
-- **Development**: In-memory storage implementation for rapid prototyping
-- **Production**: PostgreSQL database with Drizzle ORM
-- **Session Storage**: PostgreSQL-backed session store for user authentication
+### Static Data Loading
+1. Pages import data directly from `client/src/data/*` files
+2. No API calls or backend communication
+3. All data is bundled into the JavaScript at build time
+4. Client-side routing handles navigation between pages
 
 ## External Dependencies
 
@@ -85,53 +70,55 @@ Design preferences: Cool and quirky design with blue, white, and black color sch
 - **Drizzle Kit**: Database schema management
 
 ### Runtime Dependencies
-- **React Query**: Server state management
 - **React Hook Form**: Form handling with validation
 - **Zod**: Runtime type validation
 - **Date-fns**: Date manipulation utilities
+- **Wouter**: Client-side routing for single-page application
 
 ## Deployment Strategy
 
 ### Build Process
-1. **Frontend**: Vite builds React app to `dist/public`
-2. **Backend**: ESBuild bundles server code to `dist/index.js`
-3. **Database**: Drizzle migrations run via `db:push` command
+1. **Build Command**: `npm run build` creates static files in `dist/public/`
+2. **Output**: HTML, CSS, JavaScript, and assets ready for static hosting
+3. **404 Handling**: `404.html` redirects to `index.html` for client-side routing
 
-### Environment Configuration
-- **Development**: Hot reload with Vite dev server
-- **Production**: Static file serving with Express
-- **Database**: Environment-based connection strings
+### GitHub Pages Deployment
+1. Build the static site: `npm run build`
+2. Deploy `dist/public/` folder to GitHub Pages
+3. Enable GitHub Pages in repository settings
+4. Site is live at `https://username.github.io/repo-name/`
+
+See `DEPLOY.md` for detailed deployment instructions.
 
 ### Hosting Requirements
-- **Node.js**: Runtime environment
-- **PostgreSQL**: Database server (Neon recommended)
-- **Static Assets**: CDN-ready build output
-- **Environment Variables**: Database URL and session secrets
+- **Static File Hosting**: Any CDN or static host (GitHub Pages, Netlify, Vercel, etc.)
+- **No Backend**: Pure client-side application
+- **No Database**: All content is static
 
 ### Development Workflow
-1. Run `npm run dev` for development server
-2. Database schema changes via Drizzle migrations
+1. Run `npm run dev` for development server with hot reload
+2. Edit static data in `client/src/data/` files
 3. TypeScript compilation for type checking
-4. Vite provides hot reload for rapid development
+4. Build and deploy to GitHub Pages when ready
 
 ## Technical Decisions
 
 ### Framework Choices
-- **React over Vue/Angular**: Large ecosystem and team familiarity
-- **Vite over Webpack**: Faster development builds and simpler configuration
-- **Express over Fastify**: Mature ecosystem and middleware support
-- **Drizzle over Prisma**: Better TypeScript integration and SQL-like queries
-
-### Database Strategy
-- **PostgreSQL over MongoDB**: ACID compliance and relational data requirements
-- **Neon over self-hosted**: Serverless scaling and reduced operational overhead
-- **Drizzle ORM**: Type-safe queries with minimal runtime overhead
-
-### Authentication Approach
-- **Session-based over JWT**: Simpler implementation and better security for web apps
-- **PostgreSQL session store**: Centralized session management with database persistence
+- **React over Vue/Angular**: Large ecosystem and excellent static build support
+- **Vite over Webpack**: Faster development builds and optimized static output
+- **Static data over backend**: Simplicity, speed, and easy deployment to GitHub Pages
+- **Wouter over React Router**: Lightweight routing library perfect for static sites
 
 ## Recent Changes
+
+**October 5, 2025**
+- Converted application to static site for GitHub Pages deployment
+- Removed backend server and database dependencies
+- Created static data files for events, jobs, and FAQs
+- Removed React Query, replaced with direct static imports
+- Added 404.html for client-side routing on GitHub Pages
+- Created DEPLOY.md with GitHub Pages deployment instructions
+- All design elements, animations, and visual features preserved
 
 **January 11, 2025**
 - Updated hero section with cool blue, black, and white color scheme
