@@ -1,18 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Briefcase, UserCheck, Award } from "lucide-react";
-import { Job } from "@shared/schema";
+import { jobs } from "@/data/jobs";
 
 export default function Careers() {
-  const { data: jobs, isLoading } = useQuery<Job[]>({
-    queryKey: ['/api/jobs'],
-  });
-
-  if (isLoading) {
-    return <div>Loading jobs...</div>;
-  }
 
   return (
     <>
@@ -67,44 +59,19 @@ export default function Careers() {
           <div className="bg-neutral-50 rounded-xl p-8">
             <h3 className="text-2xl font-bold text-neutral-900 mb-6 text-center">Featured Job Opportunities</h3>
             <div className="space-y-6">
-              {jobs && jobs.length > 0 ? (
-                jobs.map((job) => (
-                  <Card key={job.id} className="bg-white shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                        <div className="flex-1">
-                          <h4 className="text-xl font-semibold text-neutral-900 mb-2">{job.title}</h4>
-                          <p className="text-neutral-600 mb-2">{job.company}</p>
-                          <div className="flex flex-wrap gap-2 mb-2">
-                            <Badge variant="default">{job.type}</Badge>
-                            <Badge variant="secondary">{job.location}</Badge>
-                            {job.salary && <Badge variant="outline">{job.salary}</Badge>}
-                          </div>
-                          <p className="text-neutral-600 text-sm">{job.posted}</p>
-                        </div>
-                        <div className="mt-4 lg:mt-0 lg:ml-6">
-                          <Button>
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                // Default job listing when no data is available
-                <Card className="bg-white shadow-sm hover:shadow-md transition-shadow">
+              {jobs.map((job) => (
+                <Card key={job.id} className="bg-white shadow-sm hover:shadow-md transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-neutral-900 mb-2">Senior Customer Success Manager</h4>
-                        <p className="text-neutral-600 mb-2">TechCorp Inc.</p>
+                        <h4 className="text-xl font-semibold text-neutral-900 mb-2">{job.title}</h4>
+                        <p className="text-neutral-600 mb-2">{job.company}</p>
                         <div className="flex flex-wrap gap-2 mb-2">
-                          <Badge variant="default">Full-time</Badge>
-                          <Badge variant="secondary">Remote</Badge>
-                          <Badge variant="outline">$120k - $150k</Badge>
+                          <Badge variant="default">{job.type}</Badge>
+                          <Badge variant="secondary">{job.location}</Badge>
+                          {job.salary && <Badge variant="outline">{job.salary}</Badge>}
                         </div>
-                        <p className="text-neutral-600 text-sm">Posted 2 days ago</p>
+                        <p className="text-neutral-600 text-sm">{job.posted}</p>
                       </div>
                       <div className="mt-4 lg:mt-0 lg:ml-6">
                         <Button>
@@ -114,7 +81,7 @@ export default function Careers() {
                     </div>
                   </CardContent>
                 </Card>
-              )}
+              ))}
             </div>
             <div className="text-center mt-8">
               <Button size="lg">
